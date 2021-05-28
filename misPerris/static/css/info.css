@@ -1,0 +1,36 @@
+.mensaje{
+    display: none;
+}
+
+#info {
+    background: #333;
+    font-family: cursive;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+
+.info-pet img{
+    width: 180px;
+    height: 180px;
+    border: solid 7px white;
+    border-radius: 50%;
+}
+
+#info .contenedor{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.info-pet {
+    margin:15px;
+}
+
+#info .contenedor .info-pet img:hover~.mensaje{
+    display: block;
+    filter: opacity(0.5);
+}
+#info .contenedor .info-pet img:hover{
+    filter: opacity(0.5);
+}
+

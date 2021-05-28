@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Perris</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/fontello.css">
+    <link rel="stylesheet" href="css/formulario.css">
+    <script src="js/sweetalert2.all.min.js"></script>
+    
+    <script src="lib/jquery.js"></script>
+    <script src="dist_jqv/jquery.validate.min.js"></script>
+</head>
+
+<body>
+    <!-- cabecera -->
+    <header>
+        <!-- contenedor-->
+        <div class="contenedor">
+            <h1 class="icon-guidedog">Mis Perris</h1>
+            <!-- permite activar la barra lateral (MOVIL)-->
+            <input type="checkbox" name="" id="menu-bar">
+            <label class="icon-vcard" for="menu-bar"></label>
+            <!-- menu -->
+            <nav class="menu">
+                <a href="index.html">Inicio</a>
+                <a href="galeria2.html">Galeria</a>
+                <a href="formulario.html">Formulario</a>
+                <a href="">Quienes Somos</a>
+            </nav>
+        </div>
+    </header>
+    <!-- sector principal -->
+    <main>
+
+        <section id="banner">
+            <img src="img/perro1.jpg" alt="">
+            <div class="contenedor">
+                <h2>Mascotas felices en mis perris</h2>
+                <p>cual es la mejor mascota para usted</p>
+                <a href="">Leer Mas</a>
+            </div>
+        </section>
+
+        <section id="bienvenida">
+            <h2>Formulario de Inscripcion para Adopcion</h2>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fuga, pariatur maiores enim tempore totam
+                repellendus quibusdam praesentium quas voluptatum veniam nemo rem distinctio sapiente vel ex molestiae
+                vitae exercitationem? Quam?</p>
+        </section>
+
+        <script>
+            $(document).ready(function() {
+                
+                $("#btnGrabando").click(function() {
+                    alert('funciona');
+                });
+                $("#formu").validate({
+                    rules:{
+                        txtRut:{
+                            required: true,
+                            minlength: 9,
+                            maxlength: 10
+                        },
+                        txtEmail:{
+                            required: true
+                        },
+                        txtPass1:{
+                            required: true,
+                            minlength: 5,
+                            maxlength: 15
+                        },
+                        txtPass2:{
+                            required: true,
+                            minlength: 5,
+                            maxlength: 15,
+                            equalTo: "#txtPass1"
+                        }
+                    },
+                    messages:{
+                        txtRut:{
+                            required: "es necesario el rut",
+                            minlength: "minimo 9 caracteres",
+                            maxlength: "maximo 10 caracteres"
+                        },
+                        txtEmail:{
+                            required: "es requerido el email"
+                        },
+                        txtPass1:{
+                            required: "necesita una password",
+                            minlength: "minimo password 5 caracteres",
+                            maxlength: "maximo password 15 caracteres"
+                        },
+                        txtPass2:{
+                            required: "necesita volver a ingresarla",
+                            minlength: "minimo 5 caracteres",
+                            maxlength: "maximo 15 caracteres",
+                            equalTo: "deben ser iguales las password"
+                        },
+                        txtFechaNaci:{
+                            required: "es necesaria la fecha de nacimiento",
+                            min: "minimo 01-01-1900",
+                            max:" maximo 2023-01-01"
+                        }
+                    }
+                });
+
+
+            });
+        </script>
+        <section id="formulario">
+
+            <form class="form-registro" id="formu" action="" method="post" onsubmit="return validarFormulario()">
+
+                <h2 class="form-titulo">Creacion de Cuenta Usuario</h2>
+                <div class="contenedor-input">
+                    <input class="col-xl" type="text" name="txtRut" id="txtRut" placeholder="ingrese rut" >
+                    <input class="col-xl" type="text" name="txtNombreCompleto" id="txtNombreCompleto" placeholder="ingrese nombre y apellido" required minlength="5" maxlength="45" pattern="[A-Za-z ]+" title="solo letras">
+                    <input class="col-xl" type="date" name="txtFechaNaci" id="txtFechaNaci" required min="1990-01-01" max="2023-01-01">
+                    <input class="col-xl" type="email" name="txtEmail" id="txtEmail" placeholder="ingrese email" > 
+                    <input class="col-xl" type="text" name="txtUsuario" id="txtUsuario" placeholder="ingrese usuario" required minlength="5" maxlength="12">
+                    <input class="col-xl" type="password" name="txtPass1" id="txtPass1" placeholder="ingrese password" >
+                    <input class="col-xl" type="password" name="txtPass2" id="txtPass2" placeholder="ingrese nuevamente la password" >
+                    <input class="col-xl" type="text" name="txtFono" id="txtFono" placeholder="ingrese fono" minlength="7">
+
+                    <input class="btn-registrar" type="submit" value="registrar">
+                    <input class="btn-accion" type="reset" value="Limpiar">
+                </div>
+            </form>
+        </section>
+        <!-- html/css - JS - Python (Django) - PHP - .net - J2EE -->
+        <script src="js/scripts.js"></script>
+
+    </main>
+
+    <footer>
+        <div class="contenedor">
+            <p>Mis Perris - Desarrollo Web</p>
+        </div>
+    </footer>
+   
+</body>
+
+</html>

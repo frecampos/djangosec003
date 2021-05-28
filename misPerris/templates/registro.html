@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/formulario.css' %}">
+<script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+{% endblock css %}
+
+{% block contenido %}
+
+<section id="bienvenida">
+    <h2>Formulario de Administracion de Mascotas</h2>
+    <h3>Usuario: <b>{{user.username}}</b></h3>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fuga, pariatur maiores enim tempore totam
+        repellendus quibusdam praesentium quas voluptatum veniam nemo rem distinctio sapiente vel ex molestiae
+        vitae exercitationem? Quam?</p>
+</section>
+
+<script>
+    $(document).ready(function () {
+
+
+
+    });
+</script>
+<section id="formulario">
+
+    <form class="form-registro" action="{% url 'REG' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2 class="form-titulo">Ingreso Nueva Mascota</h2>
+        <div class="contenedor-input">
+            <input class="col-chica" style="margin: 10px;" type="text" name="txtNombre" id="txtNombre"
+                placeholder="ingrese nombre" required minlength="5" maxlength="25" pattern="[A-Za-z ]+"
+                title="solo letras">
+            <input class="col-chica" style="margin: 10px;" type="number" name="txtEdad" id="txtEdad" required min=1
+                max=40 placeholder="ingrese edad">
+            <textarea class="col-grande" style="margin: 10px;" name="txtDesc" id="txtDesc" cols="30"
+                rows="10"></textarea>
+            <input class="col-grande" style="margin: 10px;" type="file" name="txtImg" id="txtImg">
+            <select class="col-grande" style="margin: 10px;padding: 15px;" name="cboCategoria" id="cboCategoria">
+                {% for item in categorias %}
+                <option>{{item.nombre}}</option>
+                {% endfor %}
+            </select>
+
+            <input class="btn-registrar" type="submit" value="registrar">
+            <input class="btn-registrar" type="reset" value="Limpiar">
+        </div>
+    </form>
+</section>
+<div style="text-align: center;color: red;font-size: xx-large;">{{mensaje}}</div>
+<div style="padding: 15px;">
+    <div style="text-align: center;font-size: xx-large;">Administracion Mascotas: {{cantidad}}</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Imagen</th>
+                <th>Descripcion</th>
+                <th>Categoria</th>
+                <th>Opciones</th>
+                <th>Publicado</th>
+                <th>Comentario</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in mascotas %}
+            <tr>
+                <td>{{item.nombre}}</td>
+                <td>{{item.edad}}</td>
+                <td>
+                    <img src="{{item.imagen.url}}" alt="" width="100px" height="100px">
+                </td>
+                <td>{{item.descripcion}}</td>
+                <td>{{item.categoria}}</td>
+                <td>
+                    <button class="btn btn-danger" onclick="eliminar('{{item.nombre}}')">Eliminar</button>
+                    <button class="btn btn-warning" onclick="modificar('{{item.nombre}}')">Modificar</button>
+                    <button class="btn btn-primary" onclick="galeria('{{item.nombre}}')" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">Agregar
+                        Imagen</button>
+                    <button class="btn btn-primary" onclick="javascript:location.href='/ficha_mascota/{{item.nombre}}/'">Ver Ficha</button>
+                </td>
+                <td>
+                    {% if item.publicar %}
+                    PUBLICADO
+                    {% else %}
+                    <div style="color: red;">NO PUBLICADO</div>
+                    {% endif %}
+                </td>
+                <td>
+                    {{item.comentario}}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Imagen a Galeria de <div id="nombre_mascota">
+                        </div>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{% url 'INSERTARG' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <input type="file" name="txtImg" id="txtImg" required>
+                        <input type="hidden" name="txtMascota" id="txtMascota">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Grabar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock contenido %}
+{% block js %}
+<script>
+    function galeria(nombre) {
+        document.getElementById("nombre_mascota").innerHTML = nombre;
+        document.getElementById("txtMascota").value=nombre;
+    }
+    function modificar(nombre) {
+        location.href = '/modificar/' + nombre + '/';
+    }
+    function eliminar(nombre) {
+        Swal.fire({
+            title: 'desea eliminar la mascota ' + nombre + '?',
+            showDenyButton: true,
+            confirmButtonText: `Eliminar`,
+            denyButtonText: `Cancelar`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                location.href = '/eliminar/' + nombre + '/';
+            }
+        })
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+    crossorigin="anonymous"></script>
+{% endblock js %}
