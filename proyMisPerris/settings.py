@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'misPerris', # agregar la aplicacion web mis perris
+    'api', # agregar la aplicacion que servira como API REST
+    'rest_framework', # libreria que permite manipular el DRF
 ]
 
 MIDDLEWARE = [

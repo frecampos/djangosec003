@@ -114,6 +114,27 @@
         </button>
     </div>
 </section>
+
+<section>
+    <h1>Listado desde la API</h1>
+    <table>
+        <tr>
+            <td>Nombre</td>
+            <td>Edad</td>
+            <td>Descripcion</td>
+        </tr>
+        {% for reg in mascotas_api %}
+        
+        <tr>
+            <td>{{reg.nombre}}</td>
+            <td>{{reg.edad}}</td>
+            <td>{{reg.descripcion}}</td>
+        </tr>
+    
+        {% endfor %}
+    </table>
+</section>
+
 {% endblock contenido %}
 {% block js %}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"

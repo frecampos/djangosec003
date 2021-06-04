@@ -1,4 +1,5 @@
 from django.shortcuts import render
+import rest_framework
 from .models import Categoria, Mascota, Galeria
 
 # importar el modelo de la tabla User
@@ -7,6 +8,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,logout,login as login_aut
 # importar libreria de decorador que permite evitar el ingreso a paginas 
 from django.contrib.auth.decorators import login_required,permission_required
+
+# permite gestionar las peticiones HTTP
+import requests
 
 # Create your views here.
 def crear_usuario(request):
@@ -65,6 +69,12 @@ def inicio(request):
     contexto = {"mascotas":mascotas}
     categorias = Categoria.objects.all()
     contexto["categorias"] = categorias
+    # --------- consumir una api 'api/mascotas'
+    #response = requests.get('http://127.0.0.1:8743/api/mascotas/')
+    #mascotas_api = response.json()
+
+    #contexto["mascotas_api"] = mascotas_api
+    # -----------------------------------------
     return render(request, "index.html",contexto)
 
 def galeria(request):
@@ -162,6 +172,23 @@ def registro(request):
                 mas.imagen = imagen
             
             mas.save()
+            # -- ocupar una api para almacenar
+            # creamos un JSON donde se define clave y valor
+            '''datos_json={
+                "nombre":nombre,
+                "edad":edad,
+                "descripcion":desc,
+                "categoria":obj_cate,
+                "usuario":nom_user
+            }
+            if imagen is not None:
+                datos_json["imagen"]= imagen
+            # se ejecuta el requests con el metodo POST hacia la direccion
+            # empleando como data a ingresar "datos_json"
+            response = requests.post("http://127.0.0.1:8743/api/mascotas_agregar/",data=datos_json)
+
+            # --------------------------------
+            '''
             mensaje="grabo"
 
     categorias = Categoria.objects.all() # select * from Categoria
